@@ -34,16 +34,35 @@ public:
     } // tu trzeba wyczyscic wezly
     DoubleList(const DoubleList& other)
     {
-        head = other.head;
-        tail = other.tail;
+        DoubleNode<T> *othernode = other.head;
+        while(othernode != nullptr){
+            if(!empty()){
+                tail->next = new DoubleNode<T>(othernode->value,nullptr,tail);
+                tail = tail->next;
+            }
+            else{
+                head = tail = new DoubleNode<T>(othernode->value);
+            }
+            othernode = othernode->next;
+        }
+
     } // copy constructor
     // usage:   DoubleList<int> list2(list1);
     DoubleList(DoubleList&& other); // move constructor NIEOBOWIAZKOWE
     // usage:   DoubleList<int> list2(std::move(list1));
     DoubleList& operator=(const DoubleList& other)
     {
-        head = other.head;
-        tail = other.tail;
+        DoubleNode<T> *othernode = other.head;
+        while(othernode != nullptr){
+            if(!empty()){
+                tail->next = new DoubleNode<T>(othernode->value,nullptr,tail);
+                tail = tail->next;
+            }
+            else{
+                head = tail = new DoubleNode<T>(othernode->value);
+            }
+            othernode = othernode->next;
+        }
         return *this;
     } // copy assignment operator, return *this
     // usage:   list2 = list1;
@@ -109,9 +128,10 @@ public:
     void clear()
     {
         DoubleNode<T> *node = head;
-        while(node != nullptr){
-            node->value = 0;
-            node = node->next;
+        while(!empty()){
+            node = head->next;
+            delete head;
+            head = node;
         }
     } // czyszczenie listy z elementow O(n)
     void display()

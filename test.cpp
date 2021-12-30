@@ -48,6 +48,7 @@ int main (void)
     L.insert(2,12);
     L.insert(2,11);
     L.display();
+    obj.display();
 
     L.clear();
     L.display();
